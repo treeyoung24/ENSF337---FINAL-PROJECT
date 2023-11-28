@@ -3,33 +3,21 @@
 #ifndef SEAT_CLASS
 #define SEAT_CLASS
 
+class Seat {
+public:
+    Seat(); //default ctor
+    Seat(int r, char c); // non-default ctor
+    ~Seat();
 
-class Seat{
+    int getRows() const; //getter function for row
+    char getColumns() const;//get function for column
+    bool isOccupied() const; // Boolean to see if seat is taken or not
+    void setOccupied(bool value); // A function to set the seat occupation status
 
-    public:
-
-    Seat(): rows(0), columns(0){}
-
-    Seat(int r, char c): rows(r), columns(c){}
-
-    int getRows()const {return rows;}
-
-    char getColumns()const {return columns;}
-
-
-
-    private:
-        int rows;
-        char columns;
-
-
-
-
-}
-
-
-
-
+private:
+    int rows; // track the row of seat
+    char columns; // track the column of seat
+    bool occupied; // variable to check seat occupancy
+};
 
 #endif
-
