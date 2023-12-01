@@ -1,23 +1,21 @@
-//seat.h
+// Seat.h
 
-#ifndef SEAT_CLASS
-#define SEAT_CLASS
+#ifndef SEAT_H
+#define SEAT_H
 
 class Seat {
+    int number;
+    bool isOccupied;
+
 public:
-    Seat(); //default ctor
-    Seat(int r, char c); // non-default ctor
-    ~Seat();
+    // Default constructor
+    Seat() : number(0), isOccupied(false) {}
 
-    int getRows() const; //getter function for row
-    char getColumns() const;//get function for column
-    bool isOccupied() const; // Boolean to see if seat is taken or not
-    void setOccupied(bool value); // A function to set the seat occupation status
+    // Parameterized constructor
+    Seat(int number);
 
-private:
-    int rows; // track the row of seat
-    char columns; // track the column of seat
-    bool occupied; // variable to check seat occupancy
+    bool getIsOccupied() const;
+    void occupySeat();
 };
 
 #endif

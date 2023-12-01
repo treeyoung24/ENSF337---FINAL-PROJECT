@@ -1,27 +1,17 @@
-//seat.cpp
+#include "Seat.h"
 
-
-#include "seat.h"
-
-// Default constructor
-Seat::Seat() : rows(0), columns(0) {}
-
-// Non default constructor
-Seat::Seat(int r, char c) : rows(r), columns(c) {}
-
-// Getter function definitions
-int Seat::getRows() const {
-    return rows;
+// Constructor
+Seat::Seat(int number) {
+    this->number = number;
+    this->isOccupied = false; // Initially, the seat is not occupied
 }
 
-char Seat::getColumns() const {
-    return columns;
+// Getter method for isOccupied
+bool Seat::getIsOccupied() const {
+    return isOccupied;
 }
 
-bool Seat::isOccupied() const{ 
-    return occupied;
-}
-
-void Seat::setOccupied(bool value){ 
-    occupied = value;
+// Function to occupy the seat
+void Seat::occupySeat() {
+    isOccupied = true;
 }
