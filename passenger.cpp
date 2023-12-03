@@ -2,71 +2,58 @@
 
 #include "Passenger.h"
 
-// Default constructor
-
-
 // Parameterized constructor
-Passenger::Passenger(const std::string& firstName, const std::string& lastName,
-                     const std::string& phoneNumber, int row, char column, int id)
-    : firstName(firstName), lastName(lastName), phoneNumber(phoneNumber),
-      row(row), column(column), id(id) {
-    // The member initializer list initializes the members with the given arguments.
+Passenger::Passenger(const std::string& Fname, const std::string& Lname,
+                     const std::string& Pnum, int rows, char columns, int ID)
+    : Fname(Fname), Lname(Lname), Pnum(Pnum),
+      rows(rows), columns(columns), ID(ID) {
 }
 
-// Getter method for firstName
-std::string Passenger::getFirstName() const {
-    return firstName;
+// Getter method definitions
+std::string Passenger::getFname() const {
+    return Fname;
 }
 
-// Setter method for firstName
-void Passenger::setFirstName(const std::string& firstName) {
-    this->firstName = firstName;
+void Passenger::setFname(const std::string& Fname) {
+    this->Fname = Fname;
 }
 
-// Getter method for lastName
-std::string Passenger::getLastName() const {
-    return lastName;
+std::string Passenger::getLname() const {
+    return Lname;
 }
 
-// Setter method for lastName
-void Passenger::setLastName(const std::string& lastName) {
-    this->lastName = lastName;
+void Passenger::setLname(const std::string& Lname) {
+    this->Lname = Lname;
 }
 
-// Getter method for phoneNumber
-std::string Passenger::getPhoneNumber() const {
-    return phoneNumber;
+std::string Passenger::getPnum() const {
+    return Pnum;
 }
 
-// Setter method for phoneNumber
-void Passenger::setPhoneNumber(const std::string& phoneNumber) {
-    this->phoneNumber = phoneNumber;
+void Passenger::setPnum(const std::string& Pnum) {
+    this->Pnum = Pnum;
 }
 
-int Passenger::getRow() const {
-    return row;
+int Passenger::getRows() const {
+    return rows;
 }
 
-void Passenger::setRow(int rowM) {
-    this->row = rowM;
+void Passenger::setRows(int rows) {
+    this->rows = rows;
 }
 
-char Passenger::getColumn() const {
-    return column;
+char Passenger::getColumns() const {
+    return columns;
 }
 
-void Passenger::setColumn(char columnM) {
-    this->column = columnM;
+void Passenger::setColumns(char columns) {
+    this->columns = columns;
 }
 
-// Getter method for id
-int Passenger::getId() const {
-    return id;
+int Passenger::getID() const {
+    return ID;
 }
 
-// Setter method for id
-void Passenger::setId(int id) {
-    this->id = id;
+void Passenger::setID(int ID) {
+    this->ID = ID;
 }
-
-// Add other member function implementations as needed

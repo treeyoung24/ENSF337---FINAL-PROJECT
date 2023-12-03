@@ -1,33 +1,33 @@
+// Airline.cpp
+
 #include "Airline.h"
+using namespace std;
 
 // Constructor
-Airline::Airline(const std::string& name, const std::string& code)
-    : name(name), code(code), flightNumber("") { // Initialize flightNumber here if necessary
+Airline::Airline(const string& airlineName, const string& airlineCode)
+    : airlineName(airlineName), airlineCode(airlineCode), flightNumber("") {
 }
 
-// Ensure this method is defined once
-void Airline::setFlightNumber(const std::string& fn) {
+void Airline::setFlightNumber(const string& fn) {
     flightNumber = fn;
 }
 
-std::string Airline::getFlightNumber() const {
+string Airline::getFlightNumber() const {
     return flightNumber;
 }
 
-std::string Airline::getName() const {
-    return name;
+string Airline::getAirlineName() const {
+    return airlineName;
 }
 
-void Airline::setName(const std::string& name) {
-    this->name = name;
+void Airline::setAirlineName(const string& airlineName) {
+    this->airlineName = airlineName;
 }
 
-std::string Airline::getCode() const {
-    return code;
+string Airline::getAirlineCode() const {
+    return airlineCode;
 }
 
-void Airline::setCode(const std::string& code) {
-    this->code = code;
+void Airline::setAirlineCode(const string& airlineCode) {
+    this->airlineCode = airlineCode;
 }
-
-// Implement other member functions as needed

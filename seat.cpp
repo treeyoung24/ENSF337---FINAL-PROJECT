@@ -1,17 +1,25 @@
+// Seat.cpp
+
 #include "Seat.h"
 
-// Constructor
-Seat::Seat(int number) {
-    this->number = number;
-    this->isOccupied = false; // Initially, the seat is not occupied
+// Constructor definition
+Seat::Seat(int num) : num(num), occupied(false) {
 }
 
-// Getter method for isOccupied
-bool Seat::getIsOccupied() const {
-    return isOccupied;
+// Getter method for occupied
+bool Seat::isOccupied() const {
+    return occupied;
 }
 
-// Function to occupy the seat
-void Seat::occupySeat() {
-    isOccupied = true;
+void Seat::vacantSeat() {
+    occupied = false;
+}
+
+// Function to set the seat to occupied
+void Seat::setOccupied() {
+    occupied = true;
+}
+
+void Seat::removeSeat() {
+    occupied = false;
 }

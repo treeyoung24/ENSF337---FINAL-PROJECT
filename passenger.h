@@ -7,33 +7,36 @@
 
 class Passenger {
 private:
-    std::string firstName;
-    std::string lastName;
-    std::string phoneNumber;
-    int row;
-    char column;
-    int id;
+    std::string Fname;
+    std::string Lname;
+    std::string Pnum;
+    int rows;
+    char columns;
+    int ID;
 
 public:
-    // Constructor
-    Passenger(const std::string& firstName, const std::string& lastName,
-              const std::string& phoneNumber, int row, char column, int id);
+    // Passenger constructor 
+    Passenger(const std::string& Fname, const std::string& Lname,
+              const std::string& Pnum, int rows, char columns, int ID);
 
-    // Getter and Setter methods for member variables
-    std::string getFirstName() const;
-    void setFirstName(const std::string& firstName);
-    std::string getLastName() const;
-    void setLastName(const std::string& lastName);
-    std::string getPhoneNumber() const;
-    void setPhoneNumber(const std::string& phoneNumber);
-    int getRow() const; // Updated to match the definition
-    void setRow(int row); // Updated to match the definition
-    char getColumn() const; // Updated to match the definition
-    void setColumn(char column); // Updated to match the definition
-    int getId() const;
-    void setId(int id);
+    // Getter and Setter for member functions
+    std::string getFname() const;
+    void setFname(const std::string& Fname);
 
-    // Add other member functions as needed
+    std::string getLname() const;
+    void setLname(const std::string& Lname);
+
+    std::string getPnum() const;
+    void setPnum(const std::string& Pnum);
+
+    int getRows() const;
+    void setRows(int rows);
+
+    char getColumns() const;
+    void setColumns(char columns);
+
+    int getID() const;
+    void setID(int ID);
 };
 
-#endif // PASSENGER_H
+#endif

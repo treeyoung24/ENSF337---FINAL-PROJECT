@@ -1,21 +1,24 @@
 // Seat.h
 
-#ifndef SEAT_H
-#define SEAT_H
+#ifndef SEAT_CLASS
+#define SEAT_CLASS
 
 class Seat {
-    int number;
-    bool isOccupied;
-
 public:
     // Default constructor
-    Seat() : number(0), isOccupied(false) {}
+    Seat() : num(0), occupied(false) {}
 
-    // Parameterized constructor
-    Seat(int number);
+    // Non default constructor
+    Seat(int num);
 
-    bool getIsOccupied() const;
-    void occupySeat();
+    void vacantSeat();
+    void removeSeat();
+    bool isOccupied() const;
+    void setOccupied();
+
+private:
+    int num;
+    bool occupied;
 };
 
 #endif

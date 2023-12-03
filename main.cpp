@@ -1,105 +1,231 @@
 // main.cpp
-
+#include <limits>
 #include "Main.h"
+#include <algorithm>
 
-void MainMenu::displayMenu() {
-    std::cout << "Please select one of the following options:" << std::endl;
-    std::cout << "1. Display Flight Seat Map." << std::endl;
-    std::cout << "2. Display Passengers Information." << std::endl;
-    std::cout << "3. Add a New Passenger." << std::endl;
-    std::cout << "4. Remove an Existing Passenger." << std::endl;
-    std::cout << "5. Save data." << std::endl;
-    std::cout << "6. Quit." << std::endl;
-    std::cout << "Enter your choice: (1, 2, 3, 4, 5, or 6) ";
-}
+using namespace std;
 
-void MainMenu::executeOption(int choice, Flight& flight) {
-    int id;
-    std::string firstName, lastName, phoneNumber;
-    int row;
-    char seatLetter;
-    std::string saveFilename;
+void mainMenu::Options(int choice, Flight& flight) {
+    int ID;
+    string fName, lName, pNum;
+    int ROWS;
+    char COLUMNS;
 
     switch (choice) {
         case 1:
-            // Implement option 1: Display Flight Seat Map
+            //Option 1: Display Flight Seat Map
             flight.displaySeatMap();
+            pressEnter();
             break;
         case 2:
+            //Option 2: Display Passengers Information
             flight.displayPassengerInfo();
+            pressEnter();
             break;
-        case 3:
+        case 3: {
+            //Option 3: Add a New Passenger
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
 
-            // Prompt the user to enter passenger information
-            std::cout << "Please enter the passenger id: ";
-            std::cin >> id;
+            // Validate and get passenger ID
+            bool IDVALID = false;
+            while (!IDVALID) {
+                cout << "Please enter the passenger ID (5 digits): ";
+                if (!(cin >> ID) || to_string(ID).length() != 5) {
+                    cout << "Invalid ID. Please enter a 5-digit passenger ID:\n ";
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                } else if (!flight.uniqueID(ID)) {
+                    cout << "Error: Passenger ID " << ID << " already exists. Please enter a different ID:\n ";
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                } else {
+                    IDVALID = true;
+                }
+            }
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-            // Prompt the user to enter other passenger information
-            std::cout << "Please enter the passenger first name: ";
-            std::cin >> firstName;
+            // Get and validate passenger first name
+            cout << "Please enter the passenger first name: ";
+            while (true) {
+                getline(cin, fName);
+                if (all_of(fName.begin(), fName.end(), [](char c) { return isalpha(c) || isspace(c); })) {
+                    break;
+                } else {
+                    cout << "Invalid first name. Please enter a valid name: ";
+                }
+            }
 
-            std::cout << "Please enter the passenger last name: ";
-            std::cin >> lastName;
+            // Get and validate passenger last name
+            cout << "Please enter the passenger last name: ";
+            while (true) {
+                getline(cin, lName);
+                if (all_of(lName.begin(), lName.end(), [](char c) { return isalpha(c) || isspace(c); })) {
+                    break;
+                } else {
+                    cout << "Invalid last name. Please enter a valid name: ";
+                }
+            }
 
-            std::cout << "Please enter the passenger phone number: ";
-            std::cin >> phoneNumber;
+            // Get and validate phone number
+            cout << "Please enter the passenger phone number (format: xxx-xxx-xxxx): ";
+            while (true) {
+                getline(cin, pNum);
+                if (pNum.length() == 12 && 
+                    pNum[3] == '-' && pNum[7] == '-' &&
+                    all_of(pNum.begin(), pNum.begin() + 3, ::isdigit) &&
+                    all_of(pNum.begin() + 4, pNum.begin() + 7, ::isdigit) &&
+                    all_of(pNum.begin() + 8, pNum.end(), ::isdigit)) {
+                    break;
+                } else {
+                    cout << "Invalid phone number. Please enter in the format xxx-xxx-xxxx: ";
+                }
+            }
 
-            std::cout << "Enter the passenger's desired row: ";
-            std::cin >> row;
+            // Validate rows and seat
+            bool openSeat = false;
+            while (!openSeat) {
+                cout << "Enter the passenger's desired ROWS: ";
+                if (!(cin >> ROWS) || ROWS <= 0) {
+                    cout << "Invalid ROWS. Please enter a valid ROWS number.\n";
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    continue;
+                }
 
-            std::cout << "Enter the passenger's desired seat (e.g., A, B, C): ";
-            std::cin >> seatLetter;
+                cout << "Enter the passenger's desired seat (e.g., A, B, C, ... F): ";
+                cin >> COLUMNS;
+                COLUMNS = toupper(COLUMNS); // Convert to uppercase 
 
-            // Call the addPassenger function with the provided information
-            flight.addPassenger(firstName, lastName, phoneNumber, row, seatLetter, id);
-            std::cout << "Passenger added successfully!" << std::endl;
+                if (!isalpha(COLUMNS) || COLUMNS < 'A' || COLUMNS > 'F') {
+                    cout << "Invalid seat. Please enter a valid seat (e.g., A, B, C, ... F).\n";
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    continue;
+                }
+
+                if (flight.isSeatOccupied(ROWS, COLUMNS)) {
+                    cout << "Error: Seat " << ROWS << COLUMNS << " is already occupied. Please choose a different seat.\n";
+                } else {
+                    openSeat = true;
+                }
+            }
+
+            // Add passenger
+            flight.addPassenger(fName, lName, pNum, ROWS, COLUMNS, ID);
+            pressEnter();
             break;
+        }
+
 
         case 4:
-            int removeId;
-            std::cout << "Please enter the passenger ID to remove: ";
-            std::cin >> removeId;
-            flight.removePassenger(removeId);
+            //Option 4: Remove an Existing Passenger
+            int removeID;
+            cout << "Please enter the passenger ID to remove: ";
+            while(!(cin >> removeID)) {
+                cout << "Invalid input. Please enter a numeric passenger ID: ";
+                cin.clear(); 
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore lines 
+            }
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            flight.removePassenger(removeID);
+            pressEnter();
             break;
 
-        case 5:
-        
-            std::cout << "Enter the filename to save data: ";
-            std::cin >> saveFilename;
-            flight.saveDataToFile(saveFilename);
-            break;
 
-        case 6:
-            std::cout << "Program terminated." << std::endl;
-            return;  // Use return to exit the executeOption function.
+        case 5:{
+                //Option 5: Save data
+                char response;
+                bool validResponse = false;
+
+                while (!validResponse) {
+                    // Ask the user if they want to save the data
+                    cout << "Do you want to save the data in the “flight_info.txt”? Please answer <Y or N>: ";
+                    cin >> response;
+
+                    // Validate the response
+                    if (toupper(response) == 'Y') {
+                        flight.saveDataToFile("flight_info.txt");
+                        cout << "All the data in the passenger list was saved into the flight_info.txt." << endl;
+
+                        // Ignore the current line in the input buffer only if it's not empty
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+                        // Wait for user to press Enter
+                        cout << "Press Enter to continue...";
+                        cin.get();
+
+                        validResponse = true; 
+                    } else if (toupper(response) == 'N') {
+                        cout << "Save operation was canceled." << endl;
+                        validResponse = true; 
+                    } else {
+                        cout << "Invalid input. Please enter 'Y' or 'N'." << endl;
+                    }
+                }
+                break;
+            }
 
         default:
-            std::cout << "Invalid choice. Please select a valid option." << std::endl;
+            cout << "Invalid choice. Please select a valid option." << endl;
     }
 }
 
 
 int main() {
-    Airline airline("Sample Airline", "SA");
-    Flight flight(airline);  // Create a Flight object
+    Airline airline("Westjet1145", "WJ1145");
+    Flight flight(airline);  
+    display_header();
+    pressEnter();
 
-    // Load passengers from a file
-    flight.loadPassengersFromFile("flight_info.txt"); // Replace with your data file
+    // Load passengers from file
+    flight.loadPassengersFromFile("flight_info.txt"); 
 
-    MainMenu menu;
+    mainMenu menu;
     int choice;
 
     while (true) {
-    std::cout << "Flight Management Program" << std::endl;
+    cout << " " << endl;
+    cout << "Flight Management Program" << endl;
+    cout << " " << endl;
     menu.displayMenu();
 
-    std::cin >> choice;
+    cin >> choice;
     if (choice == 6) {
-        break;  // Break out of the loop to terminate the program.
+        cout << "Program terminated." << endl;
+        break; 
     }
-    menu.executeOption(choice, flight);
+    menu.Options(choice, flight);
 }
 
-return 0;  // Now the program will return 0 after breaking out of the loop.
+return 0; 
 
 }
+
+void display_header() {
+    cout << "Version: 1.0\n";
+    cout << "Term Project - Flight Management Program in C++\n";
+    cout << "Produced by: Himel Paul, Tri Dung Phan\n";
+}
+
+void pressEnter() {
+    cout << "\n<<< Press Enter to Continue >>>";
+    if (cin.rdbuf()->in_avail() > 0) {
+        // Ignore the current line in the input buffer only if it's not empty
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
+    cin.get(); // Wait for user to press Enter
+}
+
+// Displaying all the optinons
+
+void mainMenu::displayMenu() {
+    cout << "Please select one of the following options:" << endl;
+    cout << "1. Display Flight Seat Map." << endl;
+    cout << "2. Display Passengers Information." << endl;
+    cout << "3. Add a New Passenger." << endl;
+    cout << "4. Remove an Existing Passenger." << endl;
+    cout << "5. Save data." << endl;
+    cout << "6. Quit." << endl;
+    cout << "Enter your choice: (1, 2, 3, 4, 5, or 6) ";
+}
+

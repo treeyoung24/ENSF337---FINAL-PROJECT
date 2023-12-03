@@ -1,7 +1,7 @@
 // main.h
 
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef MAIN
+#define MAIN
 
 #include <iostream>
 #include <vector>
@@ -10,10 +10,12 @@
 #include "Passenger.h"
 #include "Flight.h"
 
-class MainMenu {
+void display_header();
+void pressEnter();
+class mainMenu {
 public:
     void displayMenu();
-    void executeOption(int choice, Flight& flight);
+    void Options(int choice, Flight& flight);
 };
 
-#endif // MAIN_H
+#endif 
